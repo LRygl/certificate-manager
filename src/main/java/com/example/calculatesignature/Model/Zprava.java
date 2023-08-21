@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Zprava", namespace = "http://www.sukl.cz/erp/common")
+@XmlRootElement(name = "Zprava")
 @Data
 public class Zprava {
     @XmlElement(name = "com:ID_Zpravy")

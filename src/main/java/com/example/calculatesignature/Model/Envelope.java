@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
 
-@XmlRootElement(name = "soapenv:Envelope", namespace = "http://schemas.xmlsoap.org/soap/envelope/")
+@XmlRootElement(name = "soapenv:Envelope")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
 public class Envelope {

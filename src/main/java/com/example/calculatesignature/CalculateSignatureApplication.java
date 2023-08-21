@@ -5,17 +5,32 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.PropertyException;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.security.auth.x500.X500Principal;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -30,7 +45,7 @@ import java.util.UUID;
 @SpringBootApplication
 public class CalculateSignatureApplication {
 
-    public static void main(String[] args) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, JAXBException {
+    public static void main(String[] args) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, JAXBException, UnrecoverableKeyException, KeyManagementException {
         SpringApplication.run(CalculateSignatureApplication.class, args);
 
         String certificateFilePath = "/test3.cer";
@@ -39,9 +54,100 @@ public class CalculateSignatureApplication {
         getX509CertificateDetails(certificateFilePath);
 
         constructAppPingDotaz();
+        generateBasicAuthentication();
+        sendRequestToHost();
     }
 
-    private static void constructAppPingDotaz() throws JAXBException {
+
+    private static void sendRequestToHost() throws IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException {
+        String url = "https://cuep-soap.test-erecept.sukl.cz";
+
+        String pfxFilePath = "/AMBSUKL150389781G.pfx"; // Update this with the actual path
+        String pfxPassword = "Mentors2023";
+
+        URL urlObj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
+
+        // Load the PFX certificate
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        try (InputStream inputStream = new FileInputStream(pfxFilePath)) {
+            keyStore.load(inputStream, pfxPassword.toCharArray());
+        } catch (CertificateException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        SSLContextBuilder sslContextBuilder = SSLContextBuilder.create()
+                .loadKeyMaterial(keyStore, pfxPassword.toCharArray());
+
+        // Set up a custom SSL connection socket factory
+        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(
+                sslContextBuilder.build(),
+                NoopHostnameVerifier.INSTANCE);
+
+// Create HttpClient with custom SSL socket factory
+        HttpPost httpPost;
+        try (CloseableHttpClient httpClient = HttpClients.custom()
+                .setSSLSocketFactory(sslSocketFactory)
+                .build()){
+
+            httpPost = new HttpPost(url);
+            httpPost.setHeader("Authorization", generateBasicAuthentication());
+            httpPost.setHeader("Content-Type", "text/xml");
+
+            HttpEntity requestEntity = new InputStreamEntity(new ByteArrayInputStream(constructAppPingDotaz().getBytes()),
+                    ContentType.APPLICATION_XML);
+            httpPost.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+                System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                }
+            }
+
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+    private static class TrustAllCertificates implements X509TrustManager {
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+        }
+    }
+    private static String generateBasicAuthentication() {
+        String login = "00150390017";
+        String password = "+Sphingalama33";
+        String delimiter = ":";
+
+        String loginString = login+delimiter+password;
+        System.out.println(loginString);
+
+        // Encode the login string using Base64
+        String base64Credentials = Base64.getEncoder().encodeToString(loginString.getBytes());
+        System.out.println("Base64 Encoded Credentials: " + base64Credentials);
+
+        // Set the Authorization header in BASIC format
+        String basicAuthHeader = "BASIC " + base64Credentials;
+        System.out.println("Authorization Header: " + basicAuthHeader);
+
+        return basicAuthHeader;
+
+    }
+    private static String constructAppPingDotaz() throws JAXBException {
         Envelope envelope = new Envelope();
         envelope.setHeader("");
 
@@ -70,8 +176,13 @@ public class CalculateSignatureApplication {
         JAXBContext context = JAXBContext.newInstance(Envelope.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.marshal(envelope, System.out);
-
+        //marshaller.marshal(envelope, System.out);
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(envelope,writer);
+        String xml = writer.toString();
+        xml = xml.replace("<soapenv:Envelope","<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:com=\"http://www.sukl.cz/erp/common\"");
+        System.out.println(xml);
+        return xml;
     }
 
     private static String getCurrentFormatedDate(){
