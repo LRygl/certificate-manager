@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s3="http://www.w3.org/2000/09/xmldsig#" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s4="http://www.sukl.cz/erp/cuzo" xmlns:s1="http://www.sukl.cz/erp/common" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s2="http://www.sukl.cz/erp/mobil" xmlns:tns="http://www.sukl.cz/erp/cuep" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.sukl.cz/erp/cuep" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+	  <schema xmlns="http://www.w3.org/2001/XMLSchema">
+		  <import namespace="http://www.sukl.cz/erp/cuep" schemaLocation="cuep.xsd"></import>
+	  </schema>  
+  </wsdl:types>
+  <wsdl:message name="NacistPoukazSoapIn">
+    <wsdl:part name="dotaz" element="tns:NacteniPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="NacistPoukazSoapOut">
+    <wsdl:part name="NacistPoukazResult" element="tns:NacteniPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZalozitPoukazSoapIn">
+    <wsdl:part name="zalozeniPredpisuDotaz" element="tns:ZalozeniPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZalozitPoukazSoapOut">
+    <wsdl:part name="ZalozitPoukazResult" element="tns:ZalozeniPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitPoukazSoapIn">
+    <wsdl:part name="dotaz" element="tns:ZmenaPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitPoukazSoapOut">
+    <wsdl:part name="ZmenitPoukazResult" element="tns:ZmenaPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitPoukazSoapIn">
+    <wsdl:part name="zruseniPredpisuDotaz" element="tns:ZruseniPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitPoukazSoapOut">
+    <wsdl:part name="ZrusitPoukazResult" element="s1:ZruseniDokladuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="StahnoutPruvodkuSoapIn">
+    <wsdl:part name="zalozeniPredpisuDotaz" element="tns:StazeniPruvodkyDotaz" />
+  </wsdl:message>
+  <wsdl:message name="StahnoutPruvodkuSoapOut">
+    <wsdl:part name="StahnoutPruvodkuResult" element="s1:StazeniPruvodkyOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="NacistVydejSoapIn">
+    <wsdl:part name="dotaz" element="tns:NacteniVydejeDotaz" />
+  </wsdl:message>
+  <wsdl:message name="NacistVydejSoapOut">
+    <wsdl:part name="NacistVydejResult" element="tns:NacteniVydejeOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZalozitVydejSoapIn">
+    <wsdl:part name="zalozeniVydejeDotaz" element="tns:ZalozeniVydejeDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZalozitVydejSoapOut">
+    <wsdl:part name="ZalozitVydejResult" element="tns:ZalozeniVydejeOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitVydejSoapIn">
+    <wsdl:part name="zmenaVydejeDotaz" element="tns:ZmenaVydejeDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitVydejSoapOut">
+    <wsdl:part name="ZmenitVydejResult" element="tns:ZmenaVydejeOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitVydejSoapIn">
+    <wsdl:part name="zruseniVydejeDotaz" element="tns:ZruseniVydejeDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitVydejSoapOut">
+    <wsdl:part name="ZrusitVydejResult" element="s1:ZruseniDokladuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="NacistInformaceOZrusenemPoukazuSoapIn">
+    <wsdl:part name="dotaz" element="tns:NacteniInformaceOZrusenemPoukazuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="NacistInformaceOZrusenemPoukazuSoapOut">
+    <wsdl:part name="NacistInformaceOZrusenemPoukazuResult" element="s1:NacteniInformaceOZrusenemPoukazuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="NacistInformaceOZrusenemVydejiSoapIn">
+    <wsdl:part name="dotaz" element="tns:NacteniInformaceOZrusenemVydejiDotaz" />
+  </wsdl:message>
+  <wsdl:message name="NacistInformaceOZrusenemVydejiSoapOut">
+    <wsdl:part name="NacistInformaceOZrusenemVydejiResult" element="s1:NacteniInformaceOZrusenemVydejiOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitStavPoukazuSoapIn">
+    <wsdl:part name="dotaz" element="tns:ZmenaStavuPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitStavPoukazuSoapOut">
+    <wsdl:part name="ZmenitStavPoukazuResult" element="tns:ZmenaStavuPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitStavSchvalovaniPoukazuSoapIn">
+    <wsdl:part name="dotaz" element="tns:ZmenaStavuSchvalovaniPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitStavSchvalovaniPoukazuSoapOut">
+    <wsdl:part name="ZmenitStavSchvalovaniPoukazuResult" element="tns:ZmenaStavuSchvalovaniPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitUdajePoukazuSoapIn">
+    <wsdl:part name="dotaz" element="tns:ZmenaUdajuPoukazuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZmenitUdajePoukazuSoapOut">
+    <wsdl:part name="ZmenitUdajePoukazuResult" element="tns:ZmenaUdajuPoukazuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPredpisuDleDokladuPoukazSoapIn">
+    <wsdl:part name="dotaz" element="s1:SeznamPredpisuDleDokladuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPredpisuDleDokladuPoukazSoapOut">
+    <wsdl:part name="SeznamPredpisuDleDokladuPoukazResult" element="s1:SeznamPredpisuDleDokladuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="PripravitVydejeSoapIn">
+    <wsdl:part name="dotaz" element="s1:PripravaVydejuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="PripravitVydejeSoapOut">
+    <wsdl:part name="PripravitVydejeResult" element="s1:PripravaVydejuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="StahnoutVydejeSoapIn">
+    <wsdl:part name="dotaz" element="s1:StazeniVydejuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="StahnoutVydejeSoapOut">
+    <wsdl:part name="StahnoutVydejeResult" element="s1:StazeniVydejuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="PrevzitVydejeSoapIn">
+    <wsdl:part name="dotaz" element="s1:PrevzetiVydejuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="PrevzitVydejeSoapOut">
+    <wsdl:part name="PrevzitVydejeResult" element="s1:PrevzetiVydejuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="PripojitPrilohuSoapIn">
+    <wsdl:part name="dotaz" element="tns:PripojeniPrilohyDotaz" />
+  </wsdl:message>
+  <wsdl:message name="PripojitPrilohuSoapOut">
+    <wsdl:part name="PripojitPrilohuResult" element="tns:PripojeniPrilohyOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPrilohSoapIn">
+    <wsdl:part name="dotaz" element="tns:SeznamPrilohDotaz" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPrilohSoapOut">
+    <wsdl:part name="SeznamPrilohResult" element="tns:SeznamPrilohOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="NacistPrilohuSoapIn">
+    <wsdl:part name="dotaz" element="tns:NacteniPrilohyDotaz" />
+  </wsdl:message>
+  <wsdl:message name="NacistPrilohuSoapOut">
+    <wsdl:part name="NacistPrilohuResult" element="tns:NacteniPrilohyOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitPrilohuSoapIn">
+    <wsdl:part name="dotaz" element="tns:ZruseniPrilohyDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ZrusitPrilohuSoapOut">
+    <wsdl:part name="ZrusitPrilohuResult" element="s1:ZruseniPrilohyOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="SeznamKeSchvaleniSoapIn">
+    <wsdl:part name="dotaz" element="tns:SeznamPredpisuKeSchvaleniDotaz" />
+  </wsdl:message>
+  <wsdl:message name="SeznamKeSchvaleniSoapOut">
+    <wsdl:part name="SeznamKeSchvaleniResult" element="tns:SeznamPredpisuKeSchvaleniOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="ProvestSchvaleniSoapIn">
+    <wsdl:part name="dotaz" element="tns:ProvedeniSchvaleniPredpisuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="ProvestSchvaleniSoapOut">
+    <wsdl:part name="ProvestSchvaleniResult" element="tns:ProvedeniSchvaleniPredpisuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPoukazuZmenaSoapIn">
+    <wsdl:part name="dotaz" element="tns:SeznamPredpisuZmenaStavuDotaz" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPoukazuZmenaSoapOut">
+    <wsdl:part name="SeznamPoukazuZmenaResult" element="tns:SeznamPredpisuZmenaStavuOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPoukazuSignalniKodSoapIn">
+    <wsdl:part name="dotaz" element="tns:SeznamPredpisuSignalniKodDotaz" />
+  </wsdl:message>
+  <wsdl:message name="SeznamPoukazuSignalniKodSoapOut">
+    <wsdl:part name="SeznamPoukazuSignalniKodResult" element="tns:SeznamPredpisuSignalniKodOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="OveritMnozstevniLimitSoapIn">
+    <wsdl:part name="dotaz" element="tns:OveritMnozstevniLimitDotaz" />
+  </wsdl:message>
+  <wsdl:message name="OveritMnozstevniLimitSoapOut">
+    <wsdl:part name="OveritMnozstevniLimitResult" element="tns:OveritMnozstevniLimitOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="GetAppInfoSoapIn">
+    <wsdl:part name="AppInfoDotaz" element="s1:AppInfoDotaz" />
+  </wsdl:message>
+  <wsdl:message name="GetAppInfoSoapOut">
+    <wsdl:part name="GetAppInfoResult" element="s1:AppInfoOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="AppPingSoapIn">
+    <wsdl:part name="AppPingDotaz" element="s1:AppPingDotaz" />
+  </wsdl:message>
+  <wsdl:message name="AppPingSoapOut">
+    <wsdl:part name="AppPingResult" element="s1:AppPingOdpoved" />
+  </wsdl:message>
+  <wsdl:message name="AppPingZEPSoapIn">
+    <wsdl:part name="AppPingZEPDotaz" element="s1:AppPingZEPDotaz" />
+  </wsdl:message>
+  <wsdl:message name="AppPingZEPSoapOut">
+    <wsdl:part name="AppPingZEPResult" element="s1:AppPingZEPOdpoved" />
+  </wsdl:message>
+  <wsdl:portType name="CuepWebServiceSoap">
+    <wsdl:operation name="NacistPoukaz">
+      <wsdl:input message="tns:NacistPoukazSoapIn" />
+      <wsdl:output message="tns:NacistPoukazSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitPoukaz">
+      <wsdl:input message="tns:ZalozitPoukazSoapIn" />
+      <wsdl:output message="tns:ZalozitPoukazSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitPoukaz">
+      <wsdl:input message="tns:ZmenitPoukazSoapIn" />
+      <wsdl:output message="tns:ZmenitPoukazSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPoukaz">
+      <wsdl:input message="tns:ZrusitPoukazSoapIn" />
+      <wsdl:output message="tns:ZrusitPoukazSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutPruvodku">
+      <wsdl:input message="tns:StahnoutPruvodkuSoapIn" />
+      <wsdl:output message="tns:StahnoutPruvodkuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NacistVydej">
+      <wsdl:input message="tns:NacistVydejSoapIn" />
+      <wsdl:output message="tns:NacistVydejSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitVydej">
+      <wsdl:input message="tns:ZalozitVydejSoapIn" />
+      <wsdl:output message="tns:ZalozitVydejSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitVydej">
+      <wsdl:input message="tns:ZmenitVydejSoapIn" />
+      <wsdl:output message="tns:ZmenitVydejSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitVydej">
+      <wsdl:input message="tns:ZrusitVydejSoapIn" />
+      <wsdl:output message="tns:ZrusitVydejSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemPoukazu">
+      <wsdl:input message="tns:NacistInformaceOZrusenemPoukazuSoapIn" />
+      <wsdl:output message="tns:NacistInformaceOZrusenemPoukazuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemVydeji">
+      <wsdl:input message="tns:NacistInformaceOZrusenemVydejiSoapIn" />
+      <wsdl:output message="tns:NacistInformaceOZrusenemVydejiSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavPoukazu">
+      <wsdl:input message="tns:ZmenitStavPoukazuSoapIn" />
+      <wsdl:output message="tns:ZmenitStavPoukazuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavSchvalovaniPoukazu">
+      <wsdl:input message="tns:ZmenitStavSchvalovaniPoukazuSoapIn" />
+      <wsdl:output message="tns:ZmenitStavSchvalovaniPoukazuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitUdajePoukazu">
+      <wsdl:input message="tns:ZmenitUdajePoukazuSoapIn" />
+      <wsdl:output message="tns:ZmenitUdajePoukazuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPredpisuDleDokladuPoukaz">
+      <wsdl:input message="tns:SeznamPredpisuDleDokladuPoukazSoapIn" />
+      <wsdl:output message="tns:SeznamPredpisuDleDokladuPoukazSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PripravitVydeje">
+      <wsdl:input message="tns:PripravitVydejeSoapIn" />
+      <wsdl:output message="tns:PripravitVydejeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutVydeje">
+      <wsdl:input message="tns:StahnoutVydejeSoapIn" />
+      <wsdl:output message="tns:StahnoutVydejeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrevzitVydeje">
+      <wsdl:input message="tns:PrevzitVydejeSoapIn" />
+      <wsdl:output message="tns:PrevzitVydejeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PripojitPrilohu">
+      <wsdl:input message="tns:PripojitPrilohuSoapIn" />
+      <wsdl:output message="tns:PripojitPrilohuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPriloh">
+      <wsdl:input message="tns:SeznamPrilohSoapIn" />
+      <wsdl:output message="tns:SeznamPrilohSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NacistPrilohu">
+      <wsdl:input message="tns:NacistPrilohuSoapIn" />
+      <wsdl:output message="tns:NacistPrilohuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPrilohu">
+      <wsdl:input message="tns:ZrusitPrilohuSoapIn" />
+      <wsdl:output message="tns:ZrusitPrilohuSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SeznamKeSchvaleni">
+      <wsdl:input message="tns:SeznamKeSchvaleniSoapIn" />
+      <wsdl:output message="tns:SeznamKeSchvaleniSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProvestSchvaleni">
+      <wsdl:input message="tns:ProvestSchvaleniSoapIn" />
+      <wsdl:output message="tns:ProvestSchvaleniSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuZmena">
+      <wsdl:input message="tns:SeznamPoukazuZmenaSoapIn" />
+      <wsdl:output message="tns:SeznamPoukazuZmenaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuSignalniKod">
+      <wsdl:input message="tns:SeznamPoukazuSignalniKodSoapIn" />
+      <wsdl:output message="tns:SeznamPoukazuSignalniKodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OveritMnozstevniLimit">
+      <wsdl:input message="tns:OveritMnozstevniLimitSoapIn" />
+      <wsdl:output message="tns:OveritMnozstevniLimitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppInfo">
+      <wsdl:input message="tns:GetAppInfoSoapIn" />
+      <wsdl:output message="tns:GetAppInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AppPing">
+      <wsdl:input message="tns:AppPingSoapIn" />
+      <wsdl:output message="tns:AppPingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AppPingZEP">
+      <wsdl:input message="tns:AppPingZEPSoapIn" />
+      <wsdl:output message="tns:AppPingZEPSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CuepWebServiceSoap" type="tns:CuepWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NacistPoukaz">
+      <soap:operation soapAction="NacistPoukaz" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitPoukaz">
+      <soap:operation soapAction="ZalozitPoukaz" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitPoukaz">
+      <soap:operation soapAction="ZmenitPoukaz" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPoukaz">
+      <soap:operation soapAction="ZrusitPoukaz" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutPruvodku">
+      <soap:operation soapAction="StahnoutPruvodku" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistVydej">
+      <soap:operation soapAction="NacistVydej" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitVydej">
+      <soap:operation soapAction="ZalozitVydej" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitVydej">
+      <soap:operation soapAction="ZmenitVydej" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitVydej">
+      <soap:operation soapAction="ZrusitVydej" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemPoukazu">
+      <soap:operation soapAction="NacistInformaceOZrusenemPoukazu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemVydeji">
+      <soap:operation soapAction="NacistInformaceOZrusenemVydeji" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavPoukazu">
+      <soap:operation soapAction="ZmenitStavPoukazu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavSchvalovaniPoukazu">
+      <soap:operation soapAction="ZmenitStavSchvalovaniPoukazu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitUdajePoukazu">
+      <soap:operation soapAction="ZmenitUdajePoukazu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPredpisuDleDokladuPoukaz">
+      <soap:operation soapAction="SeznamPredpisuDleDokladuPoukaz" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PripravitVydeje">
+      <soap:operation soapAction="PripravitVydeje" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutVydeje">
+      <soap:operation soapAction="StahnoutVydeje" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrevzitVydeje">
+      <soap:operation soapAction="PrevzitVydeje" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PripojitPrilohu">
+      <soap:operation soapAction="PripojitPrilohu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPriloh">
+      <soap:operation soapAction="SeznamPriloh" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistPrilohu">
+      <soap:operation soapAction="NacistPrilohu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPrilohu">
+      <soap:operation soapAction="ZrusitPrilohu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamKeSchvaleni">
+      <soap:operation soapAction="SeznamKeSchvaleni" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProvestSchvaleni">
+      <soap:operation soapAction="ProvestSchvaleni" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuZmena">
+      <soap:operation soapAction="SeznamPoukazuZmena" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuSignalniKod">
+      <soap:operation soapAction="SeznamPoukazuSignalniKod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OveritMnozstevniLimit">
+      <soap:operation soapAction="OveritMnozstevniLimit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppInfo">
+      <soap:operation soapAction="GetAppInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppPing">
+      <soap:operation soapAction="AppPing" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppPingZEP">
+      <soap:operation soapAction="AppPingZEP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CuepWebServiceSoap12" type="tns:CuepWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NacistPoukaz">
+      <soap12:operation soapAction="NacistPoukaz" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitPoukaz">
+      <soap12:operation soapAction="ZalozitPoukaz" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitPoukaz">
+      <soap12:operation soapAction="ZmenitPoukaz" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPoukaz">
+      <soap12:operation soapAction="ZrusitPoukaz" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutPruvodku">
+      <soap12:operation soapAction="StahnoutPruvodku" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistVydej">
+      <soap12:operation soapAction="NacistVydej" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZalozitVydej">
+      <soap12:operation soapAction="ZalozitVydej" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitVydej">
+      <soap12:operation soapAction="ZmenitVydej" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitVydej">
+      <soap12:operation soapAction="ZrusitVydej" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemPoukazu">
+      <soap12:operation soapAction="NacistInformaceOZrusenemPoukazu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistInformaceOZrusenemVydeji">
+      <soap12:operation soapAction="NacistInformaceOZrusenemVydeji" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavPoukazu">
+      <soap12:operation soapAction="ZmenitStavPoukazu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitStavSchvalovaniPoukazu">
+      <soap12:operation soapAction="ZmenitStavSchvalovaniPoukazu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZmenitUdajePoukazu">
+      <soap12:operation soapAction="ZmenitUdajePoukazu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPredpisuDleDokladuPoukaz">
+      <soap12:operation soapAction="SeznamPredpisuDleDokladuPoukaz" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PripravitVydeje">
+      <soap12:operation soapAction="PripravitVydeje" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StahnoutVydeje">
+      <soap12:operation soapAction="StahnoutVydeje" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrevzitVydeje">
+      <soap12:operation soapAction="PrevzitVydeje" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PripojitPrilohu">
+      <soap12:operation soapAction="PripojitPrilohu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPriloh">
+      <soap12:operation soapAction="SeznamPriloh" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NacistPrilohu">
+      <soap12:operation soapAction="NacistPrilohu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZrusitPrilohu">
+      <soap12:operation soapAction="ZrusitPrilohu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamKeSchvaleni">
+      <soap12:operation soapAction="SeznamKeSchvaleni" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProvestSchvaleni">
+      <soap12:operation soapAction="ProvestSchvaleni" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuZmena">
+      <soap12:operation soapAction="SeznamPoukazuZmena" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SeznamPoukazuSignalniKod">
+      <soap12:operation soapAction="SeznamPoukazuSignalniKod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OveritMnozstevniLimit">
+      <soap12:operation soapAction="OveritMnozstevniLimit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppInfo">
+      <soap12:operation soapAction="GetAppInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppPing">
+      <soap12:operation soapAction="AppPing" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppPingZEP">
+      <soap12:operation soapAction="AppPingZEP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CuepWebService">
+    <wsdl:port name="CuepWebServiceSoap" binding="tns:CuepWebServiceSoap">
+      <soap:address location="http://localhost:49646/Endpoints/CuepWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CuepWebServiceSoap12" binding="tns:CuepWebServiceSoap12">
+      <soap12:address location="http://localhost:49646/Endpoints/CuepWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
