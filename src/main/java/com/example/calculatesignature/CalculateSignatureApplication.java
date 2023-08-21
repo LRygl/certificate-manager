@@ -1,10 +1,7 @@
 package com.example.calculatesignature;
 
 import com.example.calculatesignature.Model.*;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.PropertyException;
+import jakarta.xml.bind.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -56,27 +53,25 @@ public class CalculateSignatureApplication {
         constructAppPingDotaz();
         generateBasicAuthentication();
         sendRequestToHost();
+        parseXmlResponseToObject();
     }
 
 
-    private static void sendRequestToHost() throws IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException {
+    private static void sendRequestToHost() throws IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException, CertificateException {
         String url = "https://cuep-soap.test-erecept.sukl.cz";
 
-        String pfxFilePath = "/AMBSUKL150389781G.pfx"; // Update this with the actual path
+        String pfxFilePath = "AMBSUKL150389781G.pfx"; // Update this with the actual path
         String pfxPassword = "Mentors2023";
 
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
 
-        // Load the PFX certificate
+        // Load the PFX certificate from the resources folder
+        ClassLoader classLoader = CalculateSignatureApplication.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(pfxFilePath);
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        try (InputStream inputStream = new FileInputStream(pfxFilePath)) {
-            keyStore.load(inputStream, pfxPassword.toCharArray());
-        } catch (CertificateException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+        keyStore.load(inputStream, pfxPassword.toCharArray());
+
 
         SSLContextBuilder sslContextBuilder = SSLContextBuilder.create()
                 .loadKeyMaterial(keyStore, pfxPassword.toCharArray());
@@ -86,7 +81,7 @@ public class CalculateSignatureApplication {
                 sslContextBuilder.build(),
                 NoopHostnameVerifier.INSTANCE);
 
-// Create HttpClient with custom SSL socket factory
+        // Create HttpClient with custom SSL socket factory
         HttpPost httpPost;
         try (CloseableHttpClient httpClient = HttpClients.custom()
                 .setSSLSocketFactory(sslSocketFactory)
@@ -113,10 +108,32 @@ public class CalculateSignatureApplication {
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
+
+    private static void parseXmlResponseToObject(){
+
+        String soapResponseXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><soap:Body><AppPingOdpoved xmlns=\"http://www.sukl.cz/erp/common\"><ZpravaOdpoved><ID_Zpravy>90F6FC79-AFEB-4297-B035-BD033D8C80E5</ID_Zpravy><Verze>202307A</Verze><Odeslano>2023-08-21T22:45:32.9565232+02:00</Odeslano><Aplikace>Informační systém eRecept, v. 1.51.0.29949</Aplikace><ID_Podani>AA05947C-5C7F-42AC-BC4F-F45CBC5ED78A</ID_Podani><Prijato>2023-08-21T22:45:32.8939506+02:00</Prijato></ZpravaOdpoved></AppPingOdpoved></soap:Body></soap:Envelope>";
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(AppPingResponse.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            StringReader reader = new StringReader(soapResponseXml);
+
+            AppPingResponse appPingResponse = (AppPingResponse) unmarshaller.unmarshal(reader);
+
+            ZpravaOdpoved zpravaOdpoved = appPingResponse.getZpravaOdpoved();
+
+            // Access fields of ZpravaOdpoved as needed
+            System.out.println("ID_Zpravy: " +  zpravaOdpoved.getIdZpravyResponse());
+            System.out.println("Verze: " + zpravaOdpoved.getVerzeResponse());
+            // ... and so on
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private static class TrustAllCertificates implements X509TrustManager {
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
