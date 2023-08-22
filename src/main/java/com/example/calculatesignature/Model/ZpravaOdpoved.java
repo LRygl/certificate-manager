@@ -1,25 +1,25 @@
 package com.example.calculatesignature.Model;
 
-import jakarta.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class ZpravaOdpoved {
-    @XmlElement(name = "ID_Zpravy")
-    private String idZpravyResponse;
+    @JsonProperty("ID_Zpravy")
+    private String idZpravy;
 
-    @XmlElement(name = "Verze")
-    private String verzeResponse;
+    @JsonProperty("Verze")
+    private String verze;
 
-    @XmlElement(name = "Odeslano")
-    private String odeslanoResponse;
+    @JsonProperty("Odeslano")
+    private String odeslano;
 
-    @XmlElement(name = "Aplikace")
-    private String aplikaceResponse;
+    @JsonProperty("Aplikace")
+    private String aplikace;
 
-    @XmlElement(name = "ID_Podani")
-    private String idPodaniResponse;
+    @JsonProperty("ID_Podani")
+    private String idPodani;
 
-    @XmlElement(name = "Prijato")
-    private String prijatoResponse;
+    @JsonProperty("Prijato")
+    private String prijato;
 }
