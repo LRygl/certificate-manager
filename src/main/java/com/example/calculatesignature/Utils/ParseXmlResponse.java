@@ -1,6 +1,7 @@
 package com.example.calculatesignature.Utils;
 
 import com.example.calculatesignature.Model.AppPingOdpoved;
+import com.example.calculatesignature.Model.NacteniPredpisuOdpoved;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import jakarta.xml.bind.JAXBException;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,22 @@ public class ParseXmlResponse {
             e.printStackTrace();
             return null;
         }
-
     }
+
+    public static NacteniPredpisuOdpoved parseNacteniPredpisuOdpoved(String xmlResponse){
+        // Unmarshal inner content
+        int startIndex = xmlResponse.indexOf("<NacteniPredpisuOdpoved xmlns=\"http://www.sukl.cz/erp/cuep\">");
+        int endIndex = xmlResponse.lastIndexOf("</NacteniPredpisuOdpoved>") + "</NacteniPredpisuOdpoved>".length();
+        String innerContent = xmlResponse.substring(startIndex, endIndex);
+System.out.println("Inner XML content" + innerContent);
+        try {
+            XmlMapper xmlMapper = new XmlMapper();
+            NacteniPredpisuOdpoved nacteniPredpisuOdpoved = xmlMapper.readValue(innerContent, NacteniPredpisuOdpoved.class);
+            return nacteniPredpisuOdpoved;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

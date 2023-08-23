@@ -46,4 +46,45 @@ public class ConstructRequest {
         xml = xml.replace("<soapenv:Envelope","<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:com=\"http://www.sukl.cz/erp/common\"");
         return xml;
     }
+
+    public static String constructCuepLoadEVoucherData() throws JAXBException {
+        Envelope envelope = new Envelope();
+        envelope.setHeader("");
+
+        Body body = new Body();
+        NacteniPredpisuDotaz nacteniPredpisuDotaz = new NacteniPredpisuDotaz();
+        Doklad doklad = new Doklad();
+        Pristupujici pristupujici = new Pristupujici();
+        Identifikator identifikator = new Identifikator();
+
+        pristupujici.setUzivatel("00150390017");
+        pristupujici.setPracoviste("00150389779");
+
+        identifikator.setID_Dokladu("MDXCNIFFH");
+
+        doklad.setPristupujici(pristupujici);
+        doklad.setIdentifikator(identifikator);
+        nacteniPredpisuDotaz.setDoklad(doklad);
+
+        Zprava zprava = new Zprava();
+        zprava.setID_Zpravy(UUID.randomUUID().toString());
+        zprava.setVerze("202307A");
+        zprava.setOdeslano(new DatetimeUtils().getCurrentFormatedDate());
+        zprava.setSW_Klienta("0123456789AB");
+
+        nacteniPredpisuDotaz.setZprava(zprava);
+        envelope.setBody(body);
+        body.setNacteniPredpisuDotaz(nacteniPredpisuDotaz);
+
+        // Now, you can marshal the objects into XML
+        JAXBContext context = JAXBContext.newInstance(Envelope.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(envelope,writer);
+        String xml = writer.toString();
+        xml = xml.replace("<soapenv:Envelope","<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cuep=\"http://www.sukl.cz/erp/cuep\" xmlns:com=\"http://www.sukl.cz/erp/common\"");
+        System.out.println("Request to Host: " + xml);
+        return xml;
+    }
 }

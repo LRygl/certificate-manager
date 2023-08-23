@@ -7,12 +7,10 @@ import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class Body {
-    @XmlElement(name = "com:AppPingDotaz")
-    AppPingDotaz appPingDotaz;
+public class NacteniPredpisuDotaz {
 
-    @XmlElement(name = "cuep:NacteniPredpisuDotaz")
-    NacteniPredpisuDotaz nacteniPredpisuDotaz;
-
-
+    @XmlElement(name = "cuep:Doklad")
+    private Doklad Doklad;
+    @XmlElement(name = "com:Zprava")
+    private Zprava Zprava;
 }

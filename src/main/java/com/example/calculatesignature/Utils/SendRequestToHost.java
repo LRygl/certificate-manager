@@ -23,6 +23,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 import static com.example.calculatesignature.Utils.ConstructRequest.constructAppPingDotaz;
+import static com.example.calculatesignature.Utils.ConstructRequest.constructCuepLoadEVoucherData;
 
 @Service
 @RequiredArgsConstructor
@@ -64,13 +65,19 @@ public class SendRequestToHost {
             String header = new CertificateAndAuthUtils().getBasicAuthHeader();
             httpPost.setHeader("Authorization",  header);
             httpPost.setHeader("Content-Type", "text/xml");
-
+/* works for AppPingDotaz
             HttpEntity requestEntity = new InputStreamEntity(new ByteArrayInputStream(constructAppPingDotaz().getBytes()),
+                    ContentType.APPLICATION_XML);
+            httpPost.setEntity(requestEntity);
+*/
+
+            HttpEntity requestEntity = new InputStreamEntity(new ByteArrayInputStream(constructCuepLoadEVoucherData().getBytes()),
                     ContentType.APPLICATION_XML);
             httpPost.setEntity(requestEntity);
 
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
+                System.out.println("Response: " + response.getEntity().toString());
                 return EntityUtils.toString(response.getEntity());
             }
 

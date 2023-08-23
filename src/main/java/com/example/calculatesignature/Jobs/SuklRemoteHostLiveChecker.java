@@ -21,12 +21,11 @@ public class SuklRemoteHostLiveChecker {
 
     private final SendRequestToHost sendRequestToHost;
 
-    @Scheduled(fixedDelay = 10000) // time in ms = 10 seconds
+    //@Scheduled(fixedDelay = 10000) // time in ms = 10 seconds
     public void checkRemoteHostStatus() throws UnrecoverableKeyException, CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException, JAXBException {
 
         String result = SendRequestToHost.sendRequest();
         AppPingOdpoved appPingOdpoved = ParseXmlResponse.parseResponse(result);
-
         System.out.println("Verze: " + appPingOdpoved.getZpravaOdpoved().getVerze());
     }
 }

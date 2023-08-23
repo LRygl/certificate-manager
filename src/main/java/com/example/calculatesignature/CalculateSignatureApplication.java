@@ -1,53 +1,39 @@
 package com.example.calculatesignature;
 
-import com.example.calculatesignature.Model.*;
-import com.example.calculatesignature.Utils.CertificateAndAuthUtils;
-import com.example.calculatesignature.Utils.DatetimeUtils;
+import com.example.calculatesignature.Model.AppPingOdpoved;
+import com.example.calculatesignature.Model.NacteniPredpisuOdpoved;
+import com.example.calculatesignature.Utils.ParseXmlResponse;
+import com.example.calculatesignature.Utils.SendRequestToHost;
 import jakarta.xml.bind.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.net.ssl.X509TrustManager;
-import javax.security.auth.x500.X500Principal;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.*;
-import java.security.cert.Certificate;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.UUID;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.stereotype.Service;
 
-import static com.example.calculatesignature.Utils.ParseXmlResponse.parseResponse;
+import static com.example.calculatesignature.Utils.ConstructRequest.constructCuepLoadEVoucherData;
 
 //https://oidref.com/2.5.4.5
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class CalculateSignatureApplication {
-
-    public static void main(String[] args) throws JAXBException {
+    private final SendRequestToHost sendRequestToHost;
+    public static void main(String[] args) throws JAXBException, UnrecoverableKeyException, CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         SpringApplication.run(CalculateSignatureApplication.class, args);
+
+        String result = SendRequestToHost.sendRequest();
+        System.out.println("Response from Host: "+result);
+        NacteniPredpisuOdpoved nacteniPredpisuOdpoved = ParseXmlResponse.parseNacteniPredpisuOdpoved(result);
+
+        System.out.println(nacteniPredpisuOdpoved.getDoklad().getId_Dokladu());
+
     }
 
 }
