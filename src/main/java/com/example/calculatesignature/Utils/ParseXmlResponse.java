@@ -13,6 +13,8 @@ public class ParseXmlResponse {
 
     public static AppPingOdpoved parseResponse(String xmlResponse) throws JAXBException {
 
+        //TODO Pass the object to this class an use it in readValue
+
         // Unmarshal inner content
         int startIndex = xmlResponse.indexOf("<AppPingOdpoved xmlns=\"http://www.sukl.cz/erp/common\">");
         int endIndex = xmlResponse.lastIndexOf("</AppPingOdpoved>") + "</AppPingOdpoved>".length();

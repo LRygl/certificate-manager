@@ -33,7 +33,10 @@ public class SendRequestToHost {
 
     public static String sendRequest() throws IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException, CertificateException {
         String url = "https://cuep-soap.test-erecept.sukl.cz";
-
+        //TODO Refactor this class to accept both AppPing and NacteniPredpisu
+        //TODO Remove some exception calls
+        //TODO Move secrets to keystore
+        //TODO Move variables to AWS
         String pfxFilePath = "AMBSUKL150389781G.pfx"; // Update this with the actual path
         String pfxPassword = "Mentors2023";
 
