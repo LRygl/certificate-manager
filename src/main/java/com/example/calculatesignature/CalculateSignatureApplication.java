@@ -32,6 +32,7 @@ public class CalculateSignatureApplication {
         System.out.println("Response from Host: "+result);
         NacteniPredpisuOdpoved nacteniPredpisuOdpoved = ParseXmlResponse.parseNacteniPredpisuOdpoved(result);
 
+        System.out.println(nacteniPredpisuOdpoved.getDoklad().getPacient().getEmail());
         System.out.println(nacteniPredpisuOdpoved.getDoklad().getId_Dokladu());
 
     }

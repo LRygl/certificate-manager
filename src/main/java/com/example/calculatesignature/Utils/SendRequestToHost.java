@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.cert.CertificateException;
 
@@ -48,7 +49,6 @@ public class SendRequestToHost {
         InputStream inputStream = classLoader.getResourceAsStream(pfxFilePath);
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         keyStore.load(inputStream, pfxPassword.toCharArray());
-
 
         SSLContextBuilder sslContextBuilder = SSLContextBuilder.create()
                 .loadKeyMaterial(keyStore, pfxPassword.toCharArray());
@@ -80,8 +80,11 @@ public class SendRequestToHost {
 
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
-                System.out.println("Response: " + response.getEntity().toString());
-                return EntityUtils.toString(response.getEntity());
+
+                String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                System.out.println("Response: " + responseString);
+
+                return responseString;
             }
 
         } catch (JAXBException e) {
